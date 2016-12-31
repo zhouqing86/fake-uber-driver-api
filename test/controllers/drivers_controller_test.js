@@ -39,4 +39,22 @@ describe('Drivers Controller', () => {
   });
 
 
+  it('Delete to /api/drivers/id delete an existing driver', (done) => {
+    const driver = new Driver({ email: 'test@test.com', driving: false});
+
+    driver.save()
+      .then(() =>{
+        request(app)
+          .delete(`/api/drivers/${driver._id}`)
+          .end(() => {
+            Driver.findOne({email: 'test@test.com'})
+              .then((driver) => {
+                assert(driver === null);
+                done();
+              });
+          });
+      });
+  });
+
+
 });
