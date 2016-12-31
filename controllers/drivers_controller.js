@@ -12,5 +12,15 @@ module.exports = {
         res.send(driver);
       })
       .catch(next);
+  },
+
+  edit(req, res, next) {
+    const driverId = req.params.id;
+    const driveProps = req.body;
+
+    Driver.findByIdAndUpdate({_id : driverId}, driveProps)
+      .then(() => Driver.findById({ _id : driverId}))
+      .then(driver => res.send(driver))
+      .catch(next);
   }
 };
